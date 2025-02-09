@@ -1,6 +1,10 @@
-name: Deployment try
+name: Deployment Try
+
 on: 
   push:
+    branches:
+      - master
+  pull_request:
     branches:
       - master
 
@@ -9,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@master
+        uses: actions/checkout@v2
       
       - name: Create Node Environment
         uses: actions/setup-node@v2
