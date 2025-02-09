@@ -26,13 +26,14 @@ jobs:
           yarn install
           npm run build
       
-      - name: Set Git User
+      - name: Set up SSH
         run: |
-          git config --global user.email "action@github.com"
-          git config --global user.name "GitHub Action"
+          eval "$(ssh-agent -s)"
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' | ssh-add -
+          ssh-keyscan github.com >> ~/.ssh/known_hosts  
 
       - name: Deploy
         run: |
           npx gh-pages -d dist
         env:
-          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}  
+          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
